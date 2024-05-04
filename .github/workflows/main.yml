@@ -1,0 +1,21 @@
+name: Stream Video
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  stream_video:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+
+    - name: Stream video
+      run: |
+        sudo apt install ffmpeg -y
+        chmod +x s.sh
+        ./s.sh  "https://video-weaver.mad02.hls.live-video.net/v1/playlist/CusFZY_V5GGAKGn1hy9_cGahN4scAwu7CmixE9CljsRQkMjOdFeSBklHbMDghXRHQkzqAym50cyfNMts9E7178ojk54BmSDqMlYzQ5r8U7hKKmE3BDGbE9jWrMUoNyEoONHTxPrNkcFqpnTgiwb9IJ8xZqCLLSpGx5Rqz4Mxxt148ACCbIRM9WVzzgKLE5R-sTwbvobKatKNO4u9HwNqWEgLFLL3lUJ-1Lc0GWkXJQ33A70316GEQ7G1oCWulWMzaS0381TiQEVED0nVXU8QyPqz98GkoFhPM4iZFOjMal0Vcyp72d6IRS5voaGBMLWAeb2sKorOyC1a21iJsiRQJR8EcMAULeeiyQD0nepPTDJ5Fhv9WF8COSZihPIuWbYKtZ-2TZY9mZ0vg6EpfbAepfssIZYYkS5LNZd_Cf995ffBwQfG54wa8oLtKegSGsxWZ1XPuE-8rPeKUoQz5jrRIzeoFBiSO8pWeGLEsdmx1zDQy__-XltGU_iXAdw1VB_1EOrNDjAtQAtpmGHSZLqPb2LsjriZc6SYej7Az0zOjBKXce3Vs_hMw96qb_7Hq7-XEqXbzsvVsck3W2YICs34tlS-mmZxIUBUsJvzpyPScgzR5DygrpZmdOGEfvynoxOuwcnDjLnWyblBewgFe08IbZ8ZOgpA_GArhxk4m2Pd0CkhITU7xAqGA37Y3aC2ADpndbQqeT5o9OfLSswUjCv6lztaK3Jh60Ad7yW4bRjVlhpWnCx4ePBhMngym1Ua8ZK8Vt9iq9PkuqhVHvu2WMZYx2n2W875KDURx_kO1kDWJ18DBX1sInb4MDfH8ApGcStfrhLmwWzNGd_g8MUAPRM5NHs-SILFfVbAK6NhJuPuCRX-c43cYJQC0KqtyPd1N63F11y_LqoEojWM_LXekuJ6oh2h9NYJRh7pPmI9JrfG1cbdZ-BiEnkFn0RqNJ06ucZiRAluvzzvXajlmudDbXZr8TpyJWsVMI-4Ba6VC0KqGgyg6Ntah1J4w7ZozAAgASoJZXUtd2VzdC0yMKwJ.m3u8" "rtmp://txpush.rtmp.nimo.tv/live/su2039517328421r1595a4bfe5c70f83c9fea7f7b378d236?guid=0ad767095267ec6548014bbc4cbcc5a0&hyapp=81&hymuid=2039517328421&hyroom=5174758666&psign=a4b71e15f650959b7ad2dfd7a29773d5&rtag=P0mZ3DCdBP&sru=4H7DH2TH1&txHost=txpush.rtmp.nimo.tv&ua=d2ViJjEuMC40Jm5pbW9UVg==&appid=81&room=5174758666&muid=4079034654017&seq=1714851061323&streamcode=huya_inner_user"
