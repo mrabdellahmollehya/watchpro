@@ -1,4 +1,4 @@
-name: Start and configure SSH service on Windows
+name: Install OpenSSH
 
 on:
   push:
@@ -6,11 +6,33 @@ on:
       - main
 
 jobs:
-  start-ssh:
+  install-openssh:
     runs-on: windows-latest
+
     steps:
-      - name: Start and configure SSH service
-        run: |
-          $sshServiceName = "sshd"
-          Start-Service -Name $sshServiceName
-          Set-Service -Name $sshServiceName -StartupType 'Automatic'
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install OpenSSH
+      uses: microsoft/windows-openSSH-install@v1
+
+    - name: Start OpenSSH service
+      uses: microsoft/windows-tools@v1
+      with:
+        tool: 'powershell'
+        script: |
+          Start-Service sshd
+
+    - name: Check OpenSSH service status
+      uses: microsoft/windows-tools@v1
+      with:
+        tool: 'powershell'
+        script: |
+          Get-Service sshd
+
+    - name: Check OpenSSH version
+      uses: microsoft/windows-tools@v1
+      with:
+        tool: 'powershell'
+        script: |
+          ssh -V
