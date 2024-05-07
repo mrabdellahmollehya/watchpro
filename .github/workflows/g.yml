@@ -1,0 +1,16 @@
+name: Start and configure SSH service on Windows
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  start-ssh:
+    runs-on: windows-latest
+    steps:
+      - name: Start and configure SSH service
+        run: |
+          $sshServiceName = "sshd"
+          Start-Service -Name $sshServiceName
+          Set-Service -Name $sshServiceName -StartupType 'Automatic'
