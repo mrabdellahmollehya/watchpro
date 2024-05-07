@@ -1,38 +1,17 @@
-name: Install OpenSSH
+name: Enable SSH Server
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
-  install-openssh:
+  enable-ssh-server:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Install OpenSSH Server
+      run: |
+        Add-WindowsFeature -Name OpenSSH-Server
 
-    - name: Install OpenSSH
-      uses: microsoft/windows-openSSH-install@v1
-
-    - name: Start OpenSSH service
-      uses: microsoft/windows-tools@v1
-      with:
-        tool: 'powershell'
-        script: |
-          Start-Service sshd
-
-    - name: Check OpenSSH service status
-      uses: microsoft/windows-tools@v1
-      with:
-        tool: 'powershell'
-        script: |
-          Get-Service sshd
-
-    - name: Check OpenSSH version
-      uses: microsoft/windows-tools@v1
-      with:
-        tool: 'powershell'
-        script: |
-          ssh -V
+    - name: Start SSH Server
+      run: |
+        Start-Service sshd
+        ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:22 serveo.net
