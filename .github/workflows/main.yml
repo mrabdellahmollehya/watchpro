@@ -18,4 +18,4 @@ jobs:
       run: |
         sudo apt install ffmpeg -y
         chmod +x s.sh
-        ./s.sh "https://prod-ec-eu-west-3.video.pscp.tv/Transcoding/v1/hls/Zwq0ACUlD0Nw5jFWS0hGVlyr7wX0uoMLPjK-61_vHZ9sgAqhXAHNrpheAf9G4xMMqnPHmKZ4L6vyiAOBx042IQ/non_transcode/eu-west-3/periscope-replay-direct-prod-eu-west-3-public/master_dynamic_highlatency.m3u8?type=live" "rtmps://live-api-s.facebook.com:443/rtmp/FB-1161374301706997-0-AbxNgMYHQ_gaNf_O"
+        ./s.sh "https://video-fra3-2.xx.fbcdn.net/hvideo-prn-ldc/_nc_cat-111/_nc_sr_t-4/v/rASeaMVOanrsk7iV-mdLkQ_rSMXPMKPlb2cj_uOGjmHWVIQ/_nc_ohc-XHBwp1fEkZoQ7kNvgG64V6a/live-dash/dash-abr-ibr-audio/122148952634192108.mpd?ccb=2-4&ms=m_CTPAL&sc_t=1&oh=00_AYCmuauYiXwb-vSSnxjr6Y2s0_xPcKToWvjv9b43OkF7nw&oe=6640194E&dl=1" "rtmp://txpush.rtmp.nimo.tv/live/su2039517328421r1595a4bfe5c70f83c9fea7f7b378d236?guid=0ad767095267ec6548014bbc4cbcc5a0&hyapp=81&hymuid=2039517328421&hyroom=5174758666&psign=48b7e7035c22e237c9906ae7d8b63543&rtag=9ggEwyWm6U&sru=MP9EDHTH1&txHost=txpush.rtmp.nimo.tv&ua=d2ViJjEuMC40Jm5pbW9UVg==&appid=81&room=5174758666&muid=4079034654017&seq=1715350218549&streamcode=huya_inner_user"
