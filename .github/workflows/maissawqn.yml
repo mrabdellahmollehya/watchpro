@@ -1,0 +1,21 @@
+name: Stream Video
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  stream_video:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+
+    - name: Stream video
+      run: |
+        sudo apt install ffmpeg -y
+        chmod +x s.sh
+        ./s.sh "https://prod-ec-eu-west-3.video.pscp.tv/Transcoding/v1/hls/4pVaTh31CGOejG910k1HHZeK-Ul4lyUxYU92zMZozVcLO6FNA5UVHOLIMoTq_1xnhtSBEGX4Pj6B9PZDVrFPfw/transcode/eu-west-3/periscope-replay-direct-prod-eu-west-3-public/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsInZlcnNpb24iOiIyIn0.eyJFbmNvZGVyU2V0dGluZyI6ImVuY29kZXJfc2V0dGluZ183MjBwNjBfMTAiLCJIZWlnaHQiOjcyMCwiSGlnaEZyYW1lUmF0ZSI6dHJ1ZSwiS2JwcyI6NDUwMCwiV2lkdGgiOjEyODB9.stuYmPPT9-xV9TCzbYuSxDgDPioKBbwtYnXdCaqBQNo/dynamic_highlatency.m3u8?type=live" "rtmps://live-api-s.facebook.com:443/rtmp/FB-122149281380192108-0-AbxN7gHANOlGtKc7"
