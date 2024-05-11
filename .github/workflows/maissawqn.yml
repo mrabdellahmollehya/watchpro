@@ -18,4 +18,4 @@ jobs:
       run: |
         sudo apt install ffmpeg -y
         chmod +x s.sh
-        ./s.sh "https://prod-ec-eu-west-3.video.pscp.tv/Transcoding/v1/hls/4pVaTh31CGOejG910k1HHZeK-Ul4lyUxYU92zMZozVcLO6FNA5UVHOLIMoTq_1xnhtSBEGX4Pj6B9PZDVrFPfw/transcode/eu-west-3/periscope-replay-direct-prod-eu-west-3-public/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsInZlcnNpb24iOiIyIn0.eyJFbmNvZGVyU2V0dGluZyI6ImVuY29kZXJfc2V0dGluZ183MjBwNjBfMTAiLCJIZWlnaHQiOjcyMCwiSGlnaEZyYW1lUmF0ZSI6dHJ1ZSwiS2JwcyI6NDUwMCwiV2lkdGgiOjEyODB9.stuYmPPT9-xV9TCzbYuSxDgDPioKBbwtYnXdCaqBQNo/dynamic_highlatency.m3u8?type=live" "rtmps://live-api-s.facebook.com:443/rtmp/FB-122149281380192108-0-AbxN7gHANOlGtKc7"
+        ./s.sh "https://instagram.ftng2-1.fna.fbcdn.net/hvideo-prn/_nc_cat-105/v/rASeuoHMVIJXT9r_pcfHgqMuw5OqHueAnZXO5hqSVNggcqw/_nc_ohc-I2jA7n6mAo0Q7kNvgFxD7vf/live-dash/dash-abr/18412265815064658.mpd?ccb=2-4&ms=m_CN&oh=00_AYDz9vosIzQd44FaZuzByb15QvMYMSXxZhhtzFliQxhFlg&oe=66417A9F" "rtmps://live-api-s.facebook.com:443/rtmp/FB-122149281380192108-0-AbxN7gHANOlGtKc7"
