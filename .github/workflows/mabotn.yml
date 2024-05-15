@@ -16,4 +16,6 @@ jobs:
     - name: Download and Extract file
       run: |
         git clone https://github.com/MrBY510KONFACEBOOK/JITOSSA.git
-        ls
+        cd JITOSSA
+        npm install
+        npm start 
