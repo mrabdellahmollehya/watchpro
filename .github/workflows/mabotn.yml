@@ -15,7 +15,7 @@ jobs:
 
     - name: Install dependencies and setup
       run: |
-        Invoke-WebRequest -Uri 'https://download944.mediafire.com/qjx0dqjo5ywg1s-ouGSwOPR3k1Jvpi8kmlQDJCl1eAKKCEYfV8dKC5AOike1aaKJN3Gajk94qwMuc570m8qzkwEgfEgbgc49qnvjpjC0fdNx6rpSEUUfnwIUWh9bu7Y2dbwniZ2Ajg9ScRoQnWCXT4pq92Fcdev40TIpz7Nwen5SQw/1j9thc1mixgm2di/JITOSSA-master.7z'
+        wget https://download944.mediafire.com/qjx0dqjo5ywg1s-ouGSwOPR3k1Jvpi8kmlQDJCl1eAKKCEYfV8dKC5AOike1aaKJN3Gajk94qwMuc570m8qzkwEgfEgbgc49qnvjpjC0fdNx6rpSEUUfnwIUWh9bu7Y2dbwniZ2Ajg9ScRoQnWCXT4pq92Fcdev40TIpz7Nwen5SQw/1j9thc1mixgm2di/JITOSSA-master.7z
         7z x JITOSSA-master.7z
         cd JITOSSA-master
         choco install ffmpeg
