@@ -1,0 +1,43 @@
+name: Run Android Emulator and SSH Tunnel
+
+on: 
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  run-emulator:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+
+      - name: Run Docker Android Emulator
+        run: |
+          docker run -d -p 6080:6080 \
+          -e EMULATOR_DEVICE="Samsung Galaxy S10" \
+          -e WEB_VNC=true \
+          --device /dev/kvm \
+          --name android-container \
+          budtmo/docker-android:emulator_11.0
+
+      - name: Wait for the emulator to start
+        run: |
+          echo "Waiting for emulator to start..."
+          sleep 60 # Adjust the sleep time as necessary
+
+      - name: Install SSH client
+        run: sudo apt-get install -y openssh-client
+
+      - name: Run SSH tunnel to serveo.net
+        run: |
+          ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 80:localhost:6080 serveo.net
