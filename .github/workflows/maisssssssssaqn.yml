@@ -19,12 +19,8 @@ jobs:
       - name: Set up QEMU
         run: |
           sudo apt-get update
-          docker run -d -p 6080:6080 \
-          -e EMULATOR_DEVICE="Samsung Galaxy S10" \
-          -e WEB_VNC=true \
-          --device /dev/kvm \
-          --name android-container \
-          budtmo/docker-android:emulator_11.0
+          docker run --privileged -d -p 6080:6080 -p 5554:5554 -p 5555:5555 -e  EMULATOR_DEVICE="Samsung Galaxy S10" -e WEB_VNC=true --device /dev/kvm --name android-container budtmo/docker-android:emulator_11.0
+
 
       - name: Wait for the emulator to start
         run: |
