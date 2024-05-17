@@ -19,10 +19,6 @@ jobs:
       - name: Set up QEMU
         run: |
           sudo apt-get update
-          sudo apt-get install -y qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
-
-      - name: Run Docker Android Emulator
-        run: |
           docker run -d -p 6080:6080 \
           -e EMULATOR_DEVICE="Samsung Galaxy S10" \
           -e WEB_VNC=true \
