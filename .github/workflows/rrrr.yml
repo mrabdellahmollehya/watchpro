@@ -1,0 +1,22 @@
+name: Download and Share Video
+
+on: [push]
+
+jobs:
+  download-share-video:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install ffmpeg
+      run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+    - name: Download video using ffmpeg
+      run: ffmpeg -i "https://eg6666666666ytrcrui743wjfvjnvjsd2ldkjof9432jfsdkjjksd8932knmkv.liiivideo.com/hls2/02/00087/s2wkmwnmtgz1_h/index-v1-a1.m3u8?t=Mkvznd3v3la7VuhB-dB9Tdv5ffl4yXQ1ksayBM3oyiA&s=1716124662&e=43200&f=439083&i=0.1&sp=0" -c copy output.mp4
+
+    - name: Start a simple HTTP server
+      run: |
+        python3 -m http.server 8000 &
+                ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 80:localhost:8000 serveo.net
