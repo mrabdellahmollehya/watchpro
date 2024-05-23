@@ -1,5 +1,5 @@
-# Use the official Node.js image as the base image
-FROM node:14
+# Use the official Ubuntu image as the base image
+FROM ubuntu:20.04
 
 # Install FFmpeg
 RUN apt-get update && apt-get install -y ffmpeg
@@ -7,17 +7,12 @@ RUN apt-get update && apt-get install -y ffmpeg
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy the shell script and logo file into the container
+COPY s.sh .
+COPY logo.png .
 
-# Install dependencies
-RUN npm install
+# Make the shell script executable
+RUN chmod +x s.sh
 
-# Copy the rest of the application code
-COPY . .
-
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Define the command to run the app
-CMD ["node", "server.js"]
+# Set the command to run the script with environment variables
+CMD ["sh", "-c", "./s.sh \"$INPUT_VIDEO_URL\" \"$RTMP_OUTPUT_URL\""]
