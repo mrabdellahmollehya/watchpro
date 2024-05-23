@@ -1,0 +1,26 @@
+{
+  "name": "watchpro",
+  "description": "A Heroku app that processes videos with FFmpeg",
+  "repository": "https://github.com/MrBY510KONFACEBOOK/watchpro",
+  "env": {
+    "INPUT_VIDEO_URL": {
+      "description": "The URL of the input video",
+      "value": "http://example.com/input.mp4"
+    },
+    "RTMP_OUTPUT_URL": {
+      "description": "The RTMP output URL",
+      "value": "rtmp://example.com/live/stream"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "addons": [],
+  "buildpacks": [],
+  "scripts": {
+    "postdeploy": "sh ./s.sh \"$INPUT_VIDEO_URL\" \"$RTMP_OUTPUT_URL\""
+  }
+}
