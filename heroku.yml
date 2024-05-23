@@ -1,0 +1,6 @@
+build:
+  docker:
+    web: Dockerfile
+
+run:
+  web: ./s.sh "${INPUT_VIDEO_URL}" "${RTMP_OUTPUT_URL}"
