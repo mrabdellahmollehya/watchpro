@@ -7,7 +7,7 @@ on:
 
 jobs:
   stream_video:
-    runs-on: ubuntu-latest
+    runs-on: EC2AMAZ-79FQPVJ
 
     steps:
     - name: Checkout repository
@@ -16,6 +16,4 @@ jobs:
 
     - name: Stream video
       run: |
-        sudo apt install ffmpeg -y
-        chmod +x s.sh
-        ./s.sh "https://rr2---sn-uxaxjvhxbt2u-5atd.googlevideo.com/videoplayback?expire=1716433172&ei=tFxOZtyjHfqsp-oP2PWpkAQ&ip=156.214.90.100&id=o-AN0L8A7avSRGFQpf-iWNv6pMOcaDUTOkL8orEohcb70e&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&mh=l8&mm=31%2C29&mn=sn-uxaxjvhxbt2u-5atd%2Csn-4g5e6nze&ms=au%2Crdu&mv=m&mvi=2&pl=20&initcwndbps=427500&bui=AWRWj2SbZy22Trze5ZDv1TrfoyyAfoBrX0Y6chVbSJ0-E-JcC8KIaiSiBvdfz2UceCmhN8NJvaLtrf4P&vprv=1&svpuc=1&mime=video%2Fmp4&ns=VSjEfP1iN7UsJIgdeK0JKjAQ&rqh=1&gir=yes&clen=84614470&ratebypass=yes&dur=4802.072&lmt=1698180289289247&mt=1716410943&fvip=5&c=TVHTML5_SIMPLY_EMBEDDED_PLAYER&sefc=1&txp=4438434&n=DkceYMilz_8UCw&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AHWaYeowRQIgGxC1e8SdiGtgacmUALHFIYAZeKWHmbWwXPnsyv94L4cCIQC-1rQmwjK7zlaw0TKaLIcnlT9EvEg21t9QDifAG6i1hg%3D%3D&sig=AJfQdSswRgIhAKIipMLnWYteuM_1qU5vFWNoLyFXfxMNsQGxc0Hiq7IQAiEA76jYPRPtIjP8Svh0Pin6WeptRU28Pya9n92KTsza8jo%3D&title=%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A8%D9%82%D8%B1%D8%A9%20%D9%83%D8%A7%D9%85%D9%84%D8%A9%20-%20%D8%AD%D8%AF%D8%B1%20-%20%D9%85%D8%B4%D8%A7%D8%B1%D9%8A%20%D8%A7%D9%84%D8%B9%D9%81%D8%A7%D8%B3%D9%8A" "rtmps://live-api-s.facebook.com:443/rtmp/FB-831383845703491-0-AbzKHi2DzGWWXoyC"
+        python app.py "https://rr3---sn-vgqsrnzk.googlevideo.com/videoplayback?expire=1716596172&ei=bNlQZprnG4f6ir4Po7kq&ip=181.41.206.188&id=o-ANCzRgA8ONJ2ucZHMQCixgmuGCKv2CwKBDroZli3tLt-&itag=22&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&mh=eM&mm=31%2C29&mn=sn-vgqsrnzk%2Csn-q4fl6nz7&ms=au%2Crdu&mv=m&mvi=3&pl=24&initcwndbps=1933750&bui=AWRWj2Sbn3YWPc_v2IUe76A9amIBkibjL1CcrPljuWVIcqyJqxHoRvDXIUvEjNNFLnI1BdCoYo_t8SQR&vprv=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=9889.053&lmt=1699471114016793&mt=1716574380&fvip=2&c=MEDIA_CONNECT_FRONTEND&txp=4532434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cvprv%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAMXU4nIdUxh7wHWWblaHhzQVVfvlIblO2MLuJCtaikQ9AiAps2AIhJbpJnBHlUpBE4M0z7u1FXWa6X--wXOM1di6tw%3D%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AHWaYeowRQIga2WflgtrGt3WjE0J11ONvzj5WRtzMM3jI22wkWIzyYQCIQCp2hrPWG2l4x3wNYlFL_WAFZGV1w1tvzr_uqxHnzzKzg%3D%3D&title=%D8%B3%D8%AA%D8%AA%D9%85%D9%86%D9%89%20%D8%A7%D9%86%20%D9%84%D8%A7%20%D8%AA%D9%86%D8%AA%D9%87%D9%8A%20%D9%87%D8%B0%D9%87%20%D8%A7%D9%84%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%84%D8%AC%D9%85%D8%A7%D9%84%D9%87%D8%A7%20%7C%7C%20%D8%A7%D8%B3%D9%84%D8%A7%D9%85%20%D8%B5%D8%A8%D8%AD%D9%8A%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D8%AA%D9%86%D8%B5%D8%AA%20%D9%84%D9%87%D8%A7%20%D8%A7%D9%84%D9%82%D9%84%D9%88%D8%A8" "rtmps://live-api-s.facebook.com:443/rtmp/FB-832595448915664-0-Abx3noDrowzqBx4p"
