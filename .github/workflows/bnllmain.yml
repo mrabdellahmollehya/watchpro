@@ -1,0 +1,14 @@
+name: Run systeminfo
+
+on: [push, pull_request]
+
+jobs:
+  systeminfo:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Run systeminfo
+      run: systeminfo
