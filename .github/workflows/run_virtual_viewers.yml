@@ -1,0 +1,29 @@
+name: Run Virtual Viewers
+
+on:
+  push:
+    branches:
+      - main  # تشغيل سير العمل عند حدوث push إلى الفرع الرئيسي
+
+jobs:
+  run-virtual-viewers:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install selenium
+          pip install selenium-wire
+          pip install webdriver-manager
+
+      - name: Run virtual viewers script
+        run: python script.py
