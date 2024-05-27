@@ -1,9 +1,9 @@
 name: Run Virtual Viewers
 
 on:
-  push:
-    branches:
-      - main  # تشغيل سير العمل عند حدوث push إلى الفرع الرئيسي
+  schedule:
+    - cron: '0 * * * *'  # هذا الجدول يشغل السكربت كل ساعة
+  workflow_dispatch:  # يسمح بالتشغيل اليدوي من واجهة GitHub UI
 
 jobs:
   run-virtual-viewers:
