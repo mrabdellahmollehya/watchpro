@@ -7,7 +7,7 @@ on:
 
 jobs:
   change_password_and_run_ngrok:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - name: Change Password
       run: echo -e "123456a\n123456a" | sudo passwd $(whoami)
