@@ -1,0 +1,27 @@
+name: Quran Stream with Video Download
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  stream:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install FFmpeg & yt-dlp
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg yt-dlp
+
+      - name: Download Video
+        run: |
+         wget -O 4kfire.mp4 "https://rr1---sn-u0opnp5o5-u0oz.googlevideo.com/videoplayback?expire=1717473139&ei=EzteZpeTGvGEvdIPqraT0A0&ip=197.18.181.113&id=o-AKHZU5gUIKCUSrGGlipo--PfS1GCq3XSVfYnkCL0Ug1W&itag=22&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&mh=3S&mm=31%2C29&mn=sn-u0opnp5o5-u0oz%2Csn-hgn7rnls&ms=au%2Crdu&mv=m&mvi=1&pl=20&initcwndbps=243750&bui=AbKP-1OorekiPP2KxT5qS7PNRTKRn_An73YC86lRvRa1V_9aetgA_gpkht87zanvoG3sIjC_aKSULs3R&spc=UWF9fwEq2QUIyNJJHAgwjAvfcmAkBM4q0ulfl-Z2FXSgI3L71LD7i6ek_ZyE&vprv=1&svpuc=1&mime=video%2Fmp4&ns=eUF_g3r1HhZ-SCwaiv86m_4Q&rqh=1&cnr=14&ratebypass=yes&dur=42898.401&lmt=1717385350662917&mt=1717451132&fvip=2&c=WEB&sefc=1&txp=7308224&n=CmX-w8fisGVUKw&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIgIcglxC5NGjX5nkS9IWwthmLIIICvHhW6LGuqhK5NZwECIQDcu2bFmy6v1lVJWyAV8TxNtOBQaZ4wguMfbn7Rql0GDg%3D%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AHlkHjAwRgIhAN-Np4BPVOxi6qw5Q1LsidudEhptRxoTwA1xAPs4GiF8AiEAn7Z1ADXK7KhsYJBUAlmGTNfA0NIL_cQEKRpOeWj3p-I%3D&title=%F0%9F%94%A5%20Cozy%20Fireplace%204K%20(12%20HOURS).%20Fireplace%20with%20Crackling%20Fire%20Sounds.%20Crackling%20Fireplace%204K"
+
+      - name: Start Stream
+        run: |
+          ffmpeg -stream_loop -1 -i 2.mp3 -i 4kfire.mp4 -c:a aac -b:a 128k -an -c:v libx264 -b:v 2000k -g 60 -vf "scale=1280:720,drawtext=fontfile=arial.ttf:text='BY5':fontsize=120:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2:box=1:boxcolor=black@0.5:boxborderw=5" -map 0:a -map 1:v -f flv "rtmps://live-api-s.facebook.com:443/rtmp/FB-838563514985524-0-AbxabwouuTJHK06l"
