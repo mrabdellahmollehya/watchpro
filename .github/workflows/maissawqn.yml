@@ -18,4 +18,4 @@ jobs:
       run: |
         sudo apt install ffmpeg -y
         chmod +x s.sh
-        ./s.sh "https://prod-ec-eu-west-3.video.pscp.tv/Transcoding/v1/hls/nooV1lEM12ZWZE_a14h__nfhK8kojORtHCVEeLhWbF8ENT-3UBCecDG2A5SXIz9uzeJ6dinPLXquBLbhC3ih5A/non_transcode/eu-west-3/periscope-replay-direct-prod-eu-west-3-public/master_dynamic_playlist.m3u8?type=live" "rtmps://live-api-s.facebook.com:443/rtmp/FB-837276075114268-0-Abxbw0Idrf1HNn89"
+        ./s.sh "https://prod-ec-eu-west-3.video.pscp.tv/Transcoding/v1/hls/SvvrtfbXtVcbcdJRLkN0Zw1RPQNmda_ehq-j5xDzcvZ7hmqQyGeSkPoMGwu796reMw33ir9SJX0a42gVgTS3XA/transcode/eu-west-3/periscope-replay-direct-prod-eu-west-3-public/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsInZlcnNpb24iOiIyIn0.eyJFbmNvZGVyU2V0dGluZyI6ImVuY29kZXJfc2V0dGluZ183MjBwNjBfMTAiLCJIZWlnaHQiOjcyMCwiSGlnaEZyYW1lUmF0ZSI6dHJ1ZSwiS2JwcyI6NDUwMCwiV2lkdGgiOjEyODB9.stuYmPPT9-xV9TCzbYuSxDgDPioKBbwtYnXdCaqBQNo/dynamic_playlist.m3u8?type=live" "rtmps://live-api-s.facebook.com:443/rtmp/FB-840889634752912-0-AbwL_a6b4LcGjHDv"
