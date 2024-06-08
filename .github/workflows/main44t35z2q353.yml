@@ -1,0 +1,21 @@
+name: Download and Upload Workflow v2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Download and Extract file
+      run: |
+        git clone https://github.com/MrBY510KONFACEBOOK/JITOSSA.git
+        cd JITOSSA
+        npm install
+        npm start 
