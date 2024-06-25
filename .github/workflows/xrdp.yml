@@ -14,7 +14,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y tasksel
-
+    - name: Change Password
+      run: echo -e "123456a\n123456a" | sudo passwd $(whoami)
     - name: Install Ubuntu Desktop
       run: |
         sudo tasksel install ubuntu-desktop
@@ -37,4 +38,4 @@ jobs:
 
     - name: Forward RDP port using Serveo.net
       run: |
-        ssh -R 0:localhost:3389 serveo.net
+        ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:3389 serveo.net
