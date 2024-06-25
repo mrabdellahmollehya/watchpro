@@ -1,6 +1,6 @@
-name: Setup Ubuntu Desktop and RDP
+name: Setup Ubuntu XFCE Desktop with RDP
 
-on: [push]
+on: push
 
 jobs:
   setup-desktop:
@@ -10,15 +10,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Update APT and install tasksel
+    - name: Update APT and install XFCE
       run: |
         sudo apt-get update
-        sudo apt-get install -y tasksel
+        sudo apt-get install -y xfce4 xfce4-goodies
     - name: Change Password
       run: echo -e "123456a\n123456a" | sudo passwd $(whoami)
-    - name: Install Ubuntu Desktop
-      run: |
-        sudo tasksel install ubuntu-desktop
 
     - name: Install and configure XRDP
       run: |
