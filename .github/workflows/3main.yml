@@ -25,11 +25,13 @@ jobs:
       run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
 
     - name: Download Playit.gg
-      run: Invoke-WebRequest https://github.com/playit-cloud/playit-agent/releases/latest/download/playit-setup.exe -OutFile playit-setup.exe
+      run: Invoke-WebRequest "https://objects.githubusercontent.com/github-production-release-asset-2e65be/445695426/3dd87e62-74c8-4d94-a914-f602cdbe91fc?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20240629%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240629T085313Z&X-Amz-Expires=300&X-Amz-Signature=6d10f9fdfae8001d03341ea3dc119e1aa107da36eac847419c019ada5cbeffc7&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=445695426&response-content-disposition=attachment%3B%20filename%3Dplayit-windows-x86_64-signed.msi&response-content-type=application%2Foctet-stream" -OutFile playit.msi
 
     - name: Install Playit.gg
-      run: playit-setup.exe /silent
+      run: msiexec /i playit.msi /quiet
 
     - name: Run Playit.gg
-      run: |
-        Start-Process -NoNewWindow -Wait -FilePath 'C:\Program Files (x86)\playit-agent\playit.exe'
+      run: Start-Process -NoNewWindow -Wait -FilePath 'C:\Program Files\Playit\playit.exe' -ArgumentList 'register' -PassThru
+
+    - name: Display Playit.gg URL
+      run: Get-Content $env:USERPROFILE\.playit\config.yaml
