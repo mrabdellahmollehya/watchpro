@@ -1,5 +1,4 @@
 name: pc
-
 on: [push, workflow_dispatch]
 
 jobs:
@@ -8,7 +7,7 @@ jobs:
     steps:
     - name: Download ngrok
       run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
-      
+
     - name: Extract ngrok
       run: Expand-Archive ngrok.zip
 
@@ -26,5 +25,8 @@ jobs:
 
     - name: Download Playit.gg
       run: git clone https://github.com/MrBY510KONFACEBOOK/watchpro.git
-           cd watchpro
-           ./playit.exe
+
+    - name: Run Playit.exe
+      run: |
+        cd watchpro
+        ./playit.exe
