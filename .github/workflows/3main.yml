@@ -23,11 +23,15 @@ jobs:
     - name: Set Password for runneradmin
       run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
 
-    - name: Download Playit.gg
+    - name: Clone Repository
       run: git clone https://github.com/MrBY510KONFACEBOOK/watchpro.git
 
-    - name: Run Playit.exe
+    - name: Install Playit.gg
       run: |
+        # Navigate to the directory where the MSI is located
         cd watchpro
-        ls
-        ./playit-windows-x86_64-signed.msi
+        # Install the MSI silently
+        Start-Process msiexec.exe -ArgumentList '/i playit-windows-x86_64-signed.msi /quiet' -Wait
+
+    - name: Run Playit.gg
+      run: Start-Process 'C:\Program Files (x86)\Playit\playit.exe' -NoNewWindow
