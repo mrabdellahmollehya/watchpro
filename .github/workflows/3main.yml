@@ -29,4 +29,5 @@ jobs:
     - name: Run Playit.exe
       run: |
         cd watchpro
-        ./playit.exe
+        ls
+        playit.exe
