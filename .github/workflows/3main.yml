@@ -6,21 +6,30 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - name: Download
+    - name: Download ngrok
       run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
       
-    - name: Extract
+    - name: Extract ngrok
       run: Expand-Archive ngrok.zip
 
-    - name: Enable TS
+    - name: Enable Terminal Services
       run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
 
-    - run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+    - name: Enable Firewall for Remote Desktop
+      run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
-    - run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+    - name: Enable User Authentication
+      run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
 
-    - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
+    - name: Set Password for runneradmin
+      run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
 
-    - name: Create Tunnel
+    - name: Download Playit.gg
+      run: Invoke-WebRequest https://github.com/playit-cloud/playit-agent/releases/latest/download/playit-setup.exe -OutFile playit-setup.exe
+
+    - name: Install Playit.gg
+      run: playit-setup.exe /silent
+
+    - name: Run Playit.gg
       run: |
-        ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:3389 serveo.net
+        Start-Process -NoNewWindow -Wait -FilePath 'C:\Program Files (x86)\playit-agent\playit.exe'
