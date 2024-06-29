@@ -31,7 +31,7 @@ jobs:
       run: msiexec /i playit.msi /quiet
 
     - name: Run Playit.gg
-      run: Start-Process -NoNewWindow -Wait -FilePath 'C:\Program Files\Playit\playit.exe' -ArgumentList 'register' -PassThru
+      run: Start-Process -FilePath 'C:\Program Files\Playit\playit.exe'
 
-    - name: Display Playit.gg URL
-      run: Get-Content $env:USERPROFILE\.playit\config.yaml
+    - name: Show Playit.gg output
+      run: Get-Content C:\Program Files\Playit\playit.exe.log -Raw
