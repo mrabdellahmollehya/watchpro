@@ -44,16 +44,6 @@ jobs:
       - name: Wait for Ngrok to Initialize
         run: Start-Sleep -Seconds 10  # Wait for Ngrok to initialize
 
-      - name: Get Ngrok Tunnel URL
-        id: ngrok_url
-        run: |
-          $ngrok_info = Invoke-RestMethod -Uri "http://localhost:4040/api/tunnels" -Method Get
-          $ngrok_url = $ngrok_info.tunnels[0].public_url
-          echo "::set-output name=url::$ngrok_url"
-
-      - name: Use Ngrok Tunnel URL
-        run: |
-          echo "Ngrok Tunnel URL: ${{ steps.ngrok_url.outputs.url }}"
           
       - name: List and Run Applications in Playit Directory
         run: |
