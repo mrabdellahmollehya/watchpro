@@ -17,4 +17,4 @@ jobs:
 
     - name: Install ngrok
       run: 
-             ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:22 serveo.net
+             docker run --net=host -it -e NGROK_AUTHTOKEN=2eg1KXlEo9QtqqmlMEjzvvffedG_3M2dZvACkZiuWvEaZ37wJ ngrok/ngrok:latest tcp 22
