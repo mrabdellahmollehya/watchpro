@@ -24,16 +24,20 @@ jobs:
       run: |
         cd "C:\Program Files (x86)\"
         ls
-    - name: Verify Playit Installation
+    - name: Search for Playit Executable and Run
       run: |
-        if (Test-Path "C:\Program Files (x86)\Playit\playit.exe") {
-          Write-Output "Playit is installed at C:\Program Files (x86)\Playit\playit.exe"
-        } else {
-          Write-Error "Playit is not installed at the expected location."
+        $paths = @("C:\Program Files (x86)", "C:\Program Files", "$env:LOCALAPPDATA")
+        $path = $null
+        foreach ($dir in $paths) {
+          $path = Get-ChildItem -Path $dir -Recurse -Filter "playit.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
+          if ($path) { break }
         }
-    - name: Start Playit Application
-      run: |
-        Start-Process "C:\Program Files (x86)\Playit\playit.exe"
-        Start-Sleep -Seconds 10 # Wait for the application to start
+        if ($path) {
+          Write-Output "Playit found at $path"
+          Start-Process $path
+          Start-Sleep -Seconds 10 # Wait for the application to start
+        } else {
+          Write-Error "Playit executable not found."
+        }
     - name: Show Playit Process
       run: Get-Process -Name playit | Format-Table -AutoSize
