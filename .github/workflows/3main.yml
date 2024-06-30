@@ -1,7 +1,7 @@
 name: pcon
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Run every 5 minutes
+    - cron: '0 0 * * *'  # Run every day at midnight UTC
   push:
     branches:
       - main  # Trigger on pushes to the main branch
@@ -36,15 +36,17 @@ jobs:
         run: choco install -y ngrok
 
       - name: Configure Ngrok Authtoken
-        run: ngrok authtoken 2eg1KXlEo9QtqqmlMEjzvvffedG_3M2dZvACkZiuWvEaZ37wG
+        run: ngrok config add-authtoken 2eg1KXlEo9QtqqmlMEjzvvffedG_3M2dZvACkZiuWvEaZ37wJ
 
       - name: Expose Ngrok TCP Tunnel on Port 3389
-        run: ngrok tcp 3389
+        run: ngrok tcp 3389 > /dev/null &
+
+      - name: Wait for Ngrok to Initialize
+        run: Start-Sleep -Seconds 10  # Wait for Ngrok to initialize
 
       - name: Get Ngrok Tunnel URL
         id: ngrok_url
         run: |
-          sleep 10  # Wait for Ngrok to initialize the tunnel
           $ngrok_info = Invoke-RestMethod -Uri "http://localhost:4040/api/tunnels" -Method Get
           $ngrok_url = $ngrok_info.tunnels[0].public_url
           echo "::set-output name=url::$ngrok_url"
@@ -57,3 +59,8 @@ jobs:
         run: |
           cd "C:\Program Files\playit_gg\"
           ls
+
+      - name: Timer Until Next Run
+        run: |
+          echo "Waiting until the next scheduled run..."
+          Start-Sleep -Seconds 86400  # Wait for 24 hours (86400 seconds) until the next run
