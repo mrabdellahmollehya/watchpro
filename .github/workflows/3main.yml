@@ -38,9 +38,13 @@ jobs:
       - name: Configure Ngrok Authtoken
         run: ngrok authtoken 2eg1KXlEo9QtqqmlMEjzvvffedG_3M2dZvACkZiuWvEaZ37wG
 
+      - name: Expose Ngrok TCP Tunnel on Port 3389
+        run: ngrok tcp 3389 --region=us
+
       - name: Get Ngrok Tunnel URL
         id: ngrok_url
         run: |
+          sleep 10  # Wait for Ngrok to initialize the tunnel
           $ngrok_info = Invoke-RestMethod -Uri "http://localhost:4040/api/tunnels" -Method Get
           $ngrok_url = $ngrok_info.tunnels[0].public_url
           echo "::set-output name=url::$ngrok_url"
