@@ -1,27 +1,55 @@
 name: pcon
-on: [push, workflow_dispatch]
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Run every 5 minutes
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+  workflow_dispatch:  # Trigger manually
+
 jobs:
   build:
     runs-on: windows-latest
     steps:
-    - name: Enable Terminal Services
-      run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
-    - name: Enable Firewall for Remote Desktop
-      run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-    - name: Enable User Authentication
-      run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
-    - name: Set Password for runneradmin
-      run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
-    - name: Clone Repository
-      run: git clone https://github.com/MrBY510KONFACEBOOK/watchpro.git
-    - name: Install Playit.gg
-      run: |
-        # Navigate to the directory where the MSI is located
-        cd watchpro
-        # Install the MSI silently
-        Start-Process msiexec.exe -ArgumentList '/i playit-windows-x86_64-signed.msi /quiet' -Wait
-    - name: List and Run Applications in Playit Directory
-      run: |
-        cd "C:\Program Files\playit_gg\"
-        ls
-    
+      - name: Enable Terminal Services
+        run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+
+      - name: Enable Firewall for Remote Desktop
+        run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+
+      - name: Enable User Authentication
+        run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+
+      - name: Set Password for runneradmin
+        run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
+
+      - name: Clone Repository
+        run: git clone https://github.com/MrBY510KONFACEBOOK/watchpro.git
+
+      - name: Install Chocolatey (if not already installed)
+        run: |
+          if (-Not (Get-Command choco -ErrorAction SilentlyContinue)) {
+            Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+          }
+
+      - name: Install Ngrok via Chocolatey
+        run: choco install -y ngrok
+
+      - name: Configure Ngrok Authtoken
+        run: ngrok authtoken 2eg1KXlEo9QtqqmlMEjzvvffedG_3M2dZvACkZiuWvEaZ37wG
+
+      - name: Get Ngrok Tunnel URL
+        id: ngrok_url
+        run: |
+          $ngrok_info = Invoke-RestMethod -Uri "http://localhost:4040/api/tunnels" -Method Get
+          $ngrok_url = $ngrok_info.tunnels[0].public_url
+          echo "::set-output name=url::$ngrok_url"
+
+      - name: Use Ngrok Tunnel URL
+        run: |
+          echo "Ngrok Tunnel URL: ${{ steps.ngrok_url.outputs.url }}"
+          
+      - name: List and Run Applications in Playit Directory
+        run: |
+          cd "C:\Program Files\playit_gg\"
+          ls
