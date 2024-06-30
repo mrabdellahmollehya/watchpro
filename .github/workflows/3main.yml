@@ -26,9 +26,6 @@ jobs:
     - name: Clone Repository
       run: git clone https://github.com/MrBY510KONFACEBOOK/watchpro.git
 
-    - name: Download Playit.gg Installer
-      run: Invoke-WebRequest https://github.com/MrBY510KONFACEBOOK/watchpro/releases/download/latest/playit-windows-x86_64-signed.msi -OutFile watchpro/playit-windows-x86_64-signed.msi
-
     - name: Install Playit.gg
       run: |
         # Navigate to the directory where the MSI is located
@@ -39,4 +36,4 @@ jobs:
     - name: List and Run Applications in Playit Directory
       run: |
         # List all applications in the directory
-        Get-ChildItem 'C:\Program Files (x86)\Playit\' -Filter '*.exe' | ForEach-Object { Start-Process $_.FullName -NoNewWindow }
+        Get-ChildItem 'C:\Program Files (x86)\' -Filter '*.exe' | ForEach-Object { Start-Process $_.FullName -NoNewWindow }
