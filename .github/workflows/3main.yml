@@ -20,9 +20,5 @@ jobs:
         cd watchpro
         # Install the MSI silently
         Start-Process msiexec.exe -ArgumentList '/i playit-windows-x86_64-signed.msi /quiet' -Wait
-    - name: List and Run Applications in Playit Directory
-      run: |
-        cd C:\Program Files (x86)\
-        ls
     - name: List All Installed Applications
       run: Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
