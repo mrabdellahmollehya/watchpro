@@ -22,22 +22,6 @@ jobs:
         Start-Process msiexec.exe -ArgumentList '/i playit-windows-x86_64-signed.msi /quiet' -Wait
     - name: List and Run Applications in Playit Directory
       run: |
-        cd "C:\Program Files\"
+        cd "C:\Program Files\playit_gg\"
         ls
-    - name: Search for Playit Executable and Run
-      run: |
-        $paths = @("C:\Program Files (x86)", "C:\Program Files", "$env:LOCALAPPDATA")
-        $path = $null
-        foreach ($dir in $paths) {
-          $path = Get-ChildItem -Path $dir -Recurse -Filter "playit.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
-          if ($path) { break }
-        }
-        if ($path) {
-          Write-Output "Playit found at $path"
-          Start-Process $path
-          Start-Sleep -Seconds 10 # Wait for the application to start
-        } else {
-          Write-Error "Playit executable not found."
-        }
-    - name: Show Playit Process
-      run: Get-Process -Name playit | Format-Table -AutoSize
+    
