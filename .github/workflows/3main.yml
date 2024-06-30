@@ -1,34 +1,28 @@
-name: pc
+name: pcon
 on: [push, workflow_dispatch]
-
 jobs:
   build:
     runs-on: windows-latest
     steps:
-
     - name: Enable Terminal Services
       run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
-
     - name: Enable Firewall for Remote Desktop
       run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-
     - name: Enable User Authentication
       run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
-
     - name: Set Password for runneradmin
       run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
-
     - name: Clone Repository
       run: git clone https://github.com/MrBY510KONFACEBOOK/watchpro.git
-
     - name: Install Playit.gg
       run: |
         # Navigate to the directory where the MSI is located
         cd watchpro
         # Install the MSI silently
         Start-Process msiexec.exe -ArgumentList '/i playit-windows-x86_64-signed.msi /quiet' -Wait
-
     - name: List and Run Applications in Playit Directory
       run: |
         cd C:\Program Files (x86)\
         ls
+    - name: List All Installed Applications
+      run: Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
