@@ -24,8 +24,13 @@ jobs:
       run: |
         cd "C:\Program Files (x86)\"
         ls
-    - name: List All Installed Applications
-      run: Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
+    - name: Verify Playit Installation
+      run: |
+        if (Test-Path "C:\Program Files (x86)\Playit\playit.exe") {
+          Write-Output "Playit is installed at C:\Program Files (x86)\Playit\playit.exe"
+        } else {
+          Write-Error "Playit is not installed at the expected location."
+        }
     - name: Start Playit Application
       run: |
         Start-Process "C:\Program Files (x86)\Playit\playit.exe"
