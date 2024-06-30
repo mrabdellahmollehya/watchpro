@@ -39,7 +39,7 @@ jobs:
         run: ngrok authtoken 2eg1KXlEo9QtqqmlMEjzvvffedG_3M2dZvACkZiuWvEaZ37wG
 
       - name: Expose Ngrok TCP Tunnel on Port 3389
-        run: ngrok tcp 3389 --region=us
+        run: ngrok tcp 3389
 
       - name: Get Ngrok Tunnel URL
         id: ngrok_url
