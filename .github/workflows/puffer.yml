@@ -1,0 +1,29 @@
+name: Setup Pufferpanel and localhost.run
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  setup-pufferpanel:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Pufferpanel
+      run: |
+        curl -s https://packagecloud.io/install/repositories/pufferpanel/pufferpanel/script.deb.sh | sudo bash
+        sudo apt-get install pufferpanel -y
+
+    - name: Enable Pufferpanel Service
+      run: |
+        sudo systemctl enable --now pufferpanel
+
+    - name: Setup localhost.run
+      run: |
+        ssh -o StrictHostKeyChecking=no -R 80:localhost:8080 nokey@localhost.run
+        
