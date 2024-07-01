@@ -39,7 +39,7 @@ jobs:
         run: ngrok config add-authtoken 2eg1KXlEo9QtqqmlMEjzvvffedG_3M2dZvACkZiuWvEaZ37wJ
 
       - name: Expose Ngrok TCP Tunnel on Port 3389
-        run: ngrok tcp 3389 > /dev/null &
+        run: ngrok tcp 3389
 
       - name: Wait for Ngrok to Initialize
         run: Start-Sleep -Seconds 3  # Wait for Ngrok to initialize
