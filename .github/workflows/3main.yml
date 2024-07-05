@@ -26,15 +26,8 @@ jobs:
       - name: Clone Repository
         run: git clone https://github.com/MrBY510KONFACEBOOK/watchpro.git
 
-      - name: Install Playit
-        run: msiexec /i watchpro/playit-windows-x86_64-signed.msi /quiet /norestart
-
-      - name: List Files in Playit Bin Directory
+      - name: Change Directory to watchpro and List Files
         run: |
-          $binPath = "C:\Program Files\Playit\bin"
-          if (Test-Path $binPath) {
-            Write-Output "Files in $binPath:"
-            Get-ChildItem $binPath
-          } else {
-            Write-Output "Bin directory not found at $binPath"
-          }
+          cd watchpro
+          Write-Output "Files in the watchpro directory:"
+          Get-ChildItem
