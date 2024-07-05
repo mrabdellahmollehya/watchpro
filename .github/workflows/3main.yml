@@ -36,3 +36,15 @@ jobs:
         run: |
           $msiPath = "watchpro\playit-windows-x86_64-signed.msi"
           Start-Process msiexec.exe -ArgumentList "/i", $msiPath, "/quiet", "/norestart" -NoNewWindow -Wait
+
+      - name: Install Python
+        run: choco install -y python
+
+      - name: Start HTTP Server
+        run: |
+          $installPath = "C:\Program Files\Playit"
+          cd $installPath
+          Start-Process powershell -ArgumentList "python -m http.server 8080" -NoNewWindow
+
+      - name: Expose HTTP Server via localhost.run
+        run: ssh -R 80:localhost:8080 nokey@localhost.run
