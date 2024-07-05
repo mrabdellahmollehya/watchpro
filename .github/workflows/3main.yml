@@ -42,7 +42,7 @@ jobs:
 
       - name: Start HTTP Server
         run: |
-          $installPath = "C:\Program Files\Playit"
+          $installPath = "C:\Program Files\"
           cd $installPath
           Start-Process powershell -ArgumentList "python -m http.server 8080" -NoNewWindow
 
