@@ -31,3 +31,8 @@ jobs:
           cd watchpro
           Write-Output "Files in the watchpro directory:"
           Get-ChildItem
+
+      - name: Install Playit
+        run: |
+          $msiPath = "watchpro\playit-windows-x86_64-signed.msi"
+          Start-Process msiexec.exe -ArgumentList "/i", $msiPath, "/quiet", "/norestart" -NoNewWindow -Wait
