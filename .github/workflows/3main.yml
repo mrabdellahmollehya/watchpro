@@ -26,26 +26,15 @@ jobs:
       - name: Clone Repository
         run: git clone https://github.com/MrBY510KONFACEBOOK/watchpro.git
 
-      - name: Install Chocolatey (if not already installed)
+      - name: Install Playit
+        run: msiexec /i watchpro/playit-windows-x86_64-signed.msi /quiet /norestart
+
+      - name: List Files in Playit Bin Directory
         run: |
-          if (-Not (Get-Command choco -ErrorAction SilentlyContinue)) {
-            Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+          $binPath = "C:\Program Files\Playit\bin"
+          if (Test-Path $binPath) {
+            Write-Output "Files in $binPath:"
+            Get-ChildItem $binPath
+          } else {
+            Write-Output "Bin directory not found at $binPath"
           }
-
-      - name: Install Ngrok via Chocolatey
-        run: choco install -y ngrok
-
-      - name: Configure Ngrok Authtoken
-        run: ngrok config add-authtoken 2eg1KXlEo9QtqqmlMEjzvvffedG_3M2dZvACkZiuWvEaZ37wJ
-
-      - name: Expose Ngrok TCP Tunnel on Port 3389
-        run: ngrok tcp 3389
-
-      - name: Wait for Ngrok to Initialize
-        run: Start-Sleep -Seconds 3  # Wait for Ngrok to initialize
-
-
-      - name: Timer Until Next Run
-        run: |
-          echo "Waiting until the next scheduled run..."
-          Start-Sleep -Seconds 86400  # Wait for 24 hours (86400 seconds) until the next run
