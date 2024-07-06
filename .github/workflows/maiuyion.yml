@@ -15,11 +15,19 @@ jobs:
     - name: Start SSH service
       run: sudo service ssh start
 
-    - name: Install Playit
+    - name: Add Playit GPG key
       run: |
         curl -SsL https://playit-cloud.github.io/ppa/key.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/playit.gpg >/dev/null
-        sudo apt update
-        sudo apt install playit
+
+    - name: Add Playit repository
+      run: |
+        echo "deb [signed-by=/etc/apt/trusted.gpg.d/playit.gpg] https://playit-cloud.github.io/ppa/data ./" | sudo tee /etc/apt/sources.list.d/playit-cloud.list
+
+    - name: Update package list
+      run: sudo apt update
+
+    - name: Install Playit
+      run: sudo apt install playit
 
     - name: Start Playit
       run: playit
