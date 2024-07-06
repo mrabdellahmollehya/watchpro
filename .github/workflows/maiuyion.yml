@@ -17,23 +17,4 @@ jobs:
 
     - name: Install ngrok
       run: |
-        curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
-        && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list \
-        && sudo apt update \
-        && sudo apt install ngrok
-        ngrok config add-authtoken 2eg1KXlEo9QtqqmlMEjzvvffedG_3M2dZvACkZiuWvEaZ37wJ
-
-    - name: Run ngrok
-      run: ngrok tcp 22 &
-
-    - name: Wait for ngrok to start
-      run: sleep 5
-
-    - name: Install jq
-      run: sudo apt-get install -y jq
-
-    - name: Get ngrok host
-      run: curl -s http://localhost:4040/api/tunnels | jq -r '.tunnels[0].public_url'
-
-    - name: Wait for 24 hours before ending job
-      run: sleep $((24 * 60 * 60))  # 24 hours in seconds
+         ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:22 serveo.net
