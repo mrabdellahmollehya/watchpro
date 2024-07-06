@@ -1,4 +1,4 @@
-name: Change Password and Run Ngrok
+name: Change Password and Run Playit
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  change_password_and_run_ngrok:
+  change_password_and_run_playit:
     runs-on: ubuntu-latest
     steps:
     - name: Change Password
@@ -15,6 +15,11 @@ jobs:
     - name: Start SSH service
       run: sudo service ssh start
 
-    - name: Install ngrok
+    - name: Install Playit
       run: |
-         ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:22 serveo.net
+        curl -SsL https://playit-cloud.github.io/ppa/key.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/playit.gpg >/dev/null
+        sudo apt update
+        sudo apt install playit
+
+    - name: Start Playit
+      run: playit
