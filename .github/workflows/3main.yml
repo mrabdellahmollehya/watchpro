@@ -28,4 +28,4 @@ jobs:
         run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
 
       - name: Create SSH Tunnel
-        run: ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:3389 serveo.net
+        run: npx hypertunnel --port 3389
