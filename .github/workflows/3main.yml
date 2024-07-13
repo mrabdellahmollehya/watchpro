@@ -1,35 +1,35 @@
-name: pc
+name: pc-on
 
-on: 
-  - push
-  - workflow_dispatch
+on:
+  push:
+  workflow_dispatch:
 
-jobs: 
-  build: 
+jobs:
+  build:
     runs-on: windows-latest
 
-    steps: 
-      - name: Download ngrok
-        run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
+    steps:
+    - name: Download ngrok
+      run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
 
-      - name: Extract ngrok
-        run: Expand-Archive ngrok.zip -DestinationPath .
+    - name: Extract ngrok
+      run: Expand-Archive ngrok.zip -DestinationPath .
 
-      - name: Enable Terminal Services
-        run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+    - name: Enable Terminal Services 
+      run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
 
-      - name: Enable Remote Desktop in Firewall
-        run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+    - name: Enable Remote Desktop in Firewall
+      run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
-      - name: Enable RDP User Authentication
-        run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+    - name: Enable RDP User Authentication
+      run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
 
-      - name: Set User Password
-        run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
+    - name: Set User Password
+      run: |
+        $password = ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force
+        Set-LocalUser -Name "runneradmin" -Password $password
 
-      - name: Create SSH Tunnel
-        run: 
-            npm install -g hypertunnel
-            npx hypertunnel --port 3389
-
-     
+    - name: Create SSH Tunnel
+      run: |
+        npm install -g hypertunnel 
+        npx hypertunnel --port 3389  
