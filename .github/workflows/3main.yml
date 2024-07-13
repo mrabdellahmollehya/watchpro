@@ -28,4 +28,8 @@ jobs:
         run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
 
       - name: Create SSH Tunnel
-        run: npx hypertunnel --port 3389
+        run: 
+            npm install -g hypertunnel
+            npx hypertunnel --port 3389
+
+     
