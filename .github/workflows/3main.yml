@@ -31,4 +31,4 @@ jobs:
 
     - name: Create SSH Tunnel
       run: |
-        ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:22 serveo.net  
+        ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:3389 serveo.net  
