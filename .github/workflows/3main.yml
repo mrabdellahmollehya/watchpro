@@ -31,5 +31,4 @@ jobs:
 
     - name: Create SSH Tunnel
       run: |
-        npm install -g hypertunnel 
-        npx hypertunnel --port 3389  
+        ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:22 serveo.net  
