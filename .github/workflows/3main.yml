@@ -31,4 +31,4 @@ jobs:
 
     - name: Create SSH Tunnel
       run: |
-        ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:3389 serveo.net  
+       echo "segfault" | ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 3389:localhost:3389 -o "SetEnv SECRET=GmjQJUzkNWULszMrrBNiuYYJ" root@lulz.segfault.net
