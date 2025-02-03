@@ -29,6 +29,9 @@ jobs:
         $password = ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force
         Set-LocalUser -Name "runneradmin" -Password $password
 
+    - name: Install sshpass
+      run: sudo apt-get install sshpass
+
     - name: Create SSH Tunnel
       run: |
-       echo "segfault" | ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 3389:localhost:3389 -o "SetEnv SECRET=GmjQJUzkNWULszMrrBNiuYYJ" root@lulz.segfault.net
+        sshpass -p "segfault" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -R 3389:localhost:3389 -o "SetEnv SECRET=GmjQJUzkNWULszMrrBNiuYYJ" root@lulz.segfault.net
