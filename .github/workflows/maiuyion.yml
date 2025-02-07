@@ -22,5 +22,5 @@ jobs:
 
     - name: Forward port 22 to 5555 and keep SSH open
       run: |
-        sshpass -p "segfault" ssh -vvv -R 5555:localhost:22 -o 'SetEnv SECRET=AeLXKDVYKIUVvZfksSklcsiK' root@lulz.segfault.net &
-        while true; do sleep 6000; done
+        nohup sshpass -p "segfault" ssh -N -R 5555:localhost:22 -o 'SetEnv SECRET=AeLXKDVYKIUVvZfksSklcsiK' root@lulz.segfault.net &
+        sleep infinity
