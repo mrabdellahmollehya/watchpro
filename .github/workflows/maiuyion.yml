@@ -16,7 +16,4 @@ jobs:
       run: sudo service ssh start
 
     - name: Install ngrok
-      run: |
-         sudo apt install sshpass -y
-         sshpass -p "segfault" ssh -R 5555:localhost:22 -o 'SetEnv SECRET=AeLXKDVYKIUVvZfksSklcsiK' root@lulz.segfault.net
-         
+      run: sshpass -p "segfault" ssh -vvv -R 5555:localhost:22 -o 'SetEnv SECRET=AeLXKDVYKIUVvZfksSklcsiK' root@lulz.segfault.net
