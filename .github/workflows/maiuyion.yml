@@ -17,4 +17,6 @@ jobs:
 
     - name: Install ngrok
       run: |
-         ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" -R 0:localhost:22 serveo.net
+         sudo apt install sshpass -y
+         sshpass -p "segfault" ssh -R 5555:localhost:22 -o 'SetEnv SECRET=GmjQJUzkNWULszMrrBNiuYYJ' root@lulz.segfault.net
+         
