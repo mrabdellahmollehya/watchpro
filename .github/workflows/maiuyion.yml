@@ -15,5 +15,10 @@ jobs:
     - name: Start SSH service
       run: sudo service ssh start
 
+    - name: Add SSH host key
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H lulz.segfault.net >> ~/.ssh/known_hosts
+
     - name: Install ngrok
       run: sshpass -p "segfault" ssh -vvv -R 5555:localhost:22 -o 'SetEnv SECRET=AeLXKDVYKIUVvZfksSklcsiK' root@lulz.segfault.net
