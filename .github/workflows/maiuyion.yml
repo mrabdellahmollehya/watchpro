@@ -15,12 +15,11 @@ jobs:
     - name: Start SSH service
       run: sudo service ssh start
 
-    - name: Add SSH host key
+    - name: Download and install cloudflared
       run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -H lulz.segfault.net >> ~/.ssh/known_hosts
+        curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+        sudo dpkg -i cloudflared.deb
+        sudo cloudflared service install eyJhIjoiNTMwMDc3YmZlY2VkMmFiN2NjZTQ3NDEzYTY5MTFiYWQiLCJ0IjoiMmQ3YzUwMWQtZmRkZi00OWI3LWE0YzgtZGViODI5Yjg3YWMyIiwicyI6Ik1HSmpaamxqTnpBdE16QmhNaTAwWkRrNExXRXdZMlF0WmpneE1XSTBNREF5T1RabSJ9
 
-    - name: Forward port 22 to 5555 and keep SSH open
-      run: |
-        nohup sshpass -p "segfault" ssh -N -R 5555:localhost:22 -o 'SetEnv SECRET=AeLXKDVYKIUVvZfksSklcsiK' root@lulz.segfault.net &
-        sleep infinity
+    - name: Keep workflow running
+      run: sleep infinity
