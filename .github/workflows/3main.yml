@@ -1,44 +1,61 @@
-name: pc-on
+name: Setup Remote Desktop & SSH Tunnel
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
-  build:
+  setup:
     runs-on: windows-latest
-
     steps:
-    - name: Enable Terminal Services 
-      run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+      - name: Enable Terminal Services 
+        run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
 
-    - name: Enable Remote Desktop in Firewall
-      run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+      - name: Enable Remote Desktop in Firewall
+        run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
-    - name: Enable RDP User Authentication
-      run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+      - name: Enable RDP User Authentication
+        run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
 
-    - name: Set User Password
-      run: |
-        $password = ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force
-        Set-LocalUser -Name "runneradmin" -Password $password
+      - name: Set User Password
+        run: |
+          $password = ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force
+          Set-LocalUser -Name "runneradmin" -Password $password
 
-    - name: Install Cloudflared
-      run: |
-        $msiPath = "$env:TEMP\cloudflared.msi"
-        Invoke-WebRequest -Uri "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.msi" -OutFile $msiPath
-        msiexec /i $msiPath /quiet /qn
-        Start-Sleep -Seconds 30
+      - name: Create .ssh Directory
+        run: New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.ssh"
 
-    - name: Setup Cloudflared Tunnel
-      run: |
-        $cloudflaredPath = (Get-Command -Name "cloudflared.exe" -ErrorAction SilentlyContinue).Source
-        if ($cloudflaredPath) {
-          & $cloudflaredPath service install eyJhIjoiNTMwMDc3YmZlY2VkMmFiN2NjZTQ3NDEzYTY5MTFiYWQiLCJ0IjoiN2M5MTE1YmMtMWUxZi00YjFhLWJlNWQtNGMzOGEyMjVhNmRlIiwJ9
-          Start-Service cloudflared
-        } else {
-          Write-Error "cloudflared.exe not found"
-        }
+      - name: Add SSH Private Key
+        run: |
+          Set-Content -Path "$env:USERPROFILE\.ssh\id_sf-lulz-segfault-net" -Value @"
+          -----BEGIN OPENSSH PRIVATE KEY-----
+          b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+          QyNTUxOQAAACBBpNSZc8Zn35jpoxbK03ewXH8YhuG2z6m3RcydTnWC1AAAAIjbUJ7a21Ce
+          2gAAAAtzc2gtZWQyNTUxOQAAACBBpNSZc8Zn35jpoxbK03ewXH8YhuG2z6m3RcydTnWC1A
+          AAAEC8FtXepDOXBZV/nBTKMOFCsm8kqSpLpVwjjquJPeWsJEGk1JlzxmffmOmjFsrTd7Bc
+          fxiG4bbPqbdFzJ1OdYLUAAAAAAECAwQF
+          -----END OPENSSH PRIVATE KEY-----
+          "@
 
-    - name: Keep runner active
-      run: while ($true) { Start-Sleep -Seconds 3600 }
+      - name: Set SSH Private Key Permissions
+        run: icacls "$env:USERPROFILE\.ssh\id_sf-lulz-segfault-net" /inheritance:r /grant:r "$($env:USERNAME):(R)"
+
+      - name: Add SSH Config File
+        run: |
+          $configContent = @"
+          host riotcar
+              User root
+              HostName lulz.segfault.net
+              IdentityFile ~/.ssh/id_sf-lulz-segfault-net
+              SetEnv SECRET=AeLXKDVYKIUVvZfksSklcsiK
+              LocalForward 3389 127.0.0.1:3389
+          "@
+          Set-Content -Path "$env:USERPROFILE\.ssh\config" -Value $configContent
+
+      - name: Set SSH Config File Permissions
+        run: icacls "$env:USERPROFILE\.ssh\config" /inheritance:r /grant:r "$($env:USERNAME):(R)"
+
+      - name: Start SSH Tunnel for RDP
+        run: Start-Process -NoNewWindow -FilePath "ssh" -ArgumentList "riotcar -N"
+
+      - name: Keep Workflow Running
+        run: while ($true) { Start-Sleep -Seconds 3600 }
