@@ -29,16 +29,16 @@ jobs:
         Invoke-WebRequest -Uri "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.msi" -OutFile $msiPath
         msiexec /i $msiPath /quiet /qn
         Start-Sleep -Seconds 30
-        if (Test-Path "$env:ProgramFiles\Cloudflare\Cloudflared\cloudflared.exe") {
-          Write-Output "cloudflared.exe found"
-        } else {
-          Write-Error "cloudflared.exe not found"
-        }
 
     - name: Setup Cloudflared Tunnel
       run: |
-        & "$env:ProgramFiles\Cloudflare\Cloudflared\cloudflared.exe" service install eyJhIjoiNTMwMDc3YmZlY2VkMmFiN2NjZTQ3NDEzYTY5MTFiYWQiLCJ0IjoiN2M5MTE1YmMtMWUxZi00YjFhLWJlNWQtNGMzOGEyMjVhNmRlIiwJ9
-        Start-Service cloudflared
+        $cloudflaredPath = (Get-Command -Name "cloudflared.exe" -ErrorAction SilentlyContinue).Source
+        if ($cloudflaredPath) {
+          & $cloudflaredPath service install eyJhIjoiNTMwMDc3YmZlY2VkMmFiN2NjZTQ3NDEzYTY5MTFiYWQiLCJ0IjoiN2M5MTE1YmMtMWUxZi00YjFhLWJlNWQtNGMzOGEyMjVhNmRlIiwJ9
+          Start-Service cloudflared
+        } else {
+          Write-Error "cloudflared.exe not found"
+        }
 
     - name: Keep runner active
       run: while ($true) { Start-Sleep -Seconds 3600 }
