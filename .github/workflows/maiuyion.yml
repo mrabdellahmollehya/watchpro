@@ -17,4 +17,4 @@ jobs:
 
     - name: Download and install cloudflared
       run: |
-        docker run --rm -it --net=host -e SECRET_KEY=72d553bd996951da4b4a9ebf0307e3c455fd69a77c9bda91d57a5fba067064b0 ghcr.io/playit-cloud/playit-agent:0.15
+        docker run --rm --net=host -e SECRET_KEY=72d553bd996951da4b4a9ebf0307e3c455fd69a77c9bda91d57a5fba067064b0 ghcr.io/playit-cloud/playit-agent:0.15
