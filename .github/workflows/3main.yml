@@ -1,4 +1,4 @@
-name: Setup Remote Desktop & SSH Tunnel
+name: Setup Remote Desktop
 
 on:
   workflow_dispatch:
@@ -21,11 +21,11 @@ jobs:
           $password = ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force
           Set-LocalUser -Name "runneradmin" -Password $password
 
-      - name: Start SSH Tunnel for RDP
-        run: Start-Process -NoNewWindow -FilePath "ssh" -ArgumentList "-p 443 -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R0:localhost:3389 tcp@a.pinggy.io"
-
       - name: Wait for 4 seconds
-        run: Start-Sleep -Seconds 4
+        run: Start-Sleep -Seconds 2
 
-      - name: Print SSH Tunnel Log
-        run: Get-EventLog -LogName "Application" -Newest 10
+      - name: Print Event Log
+        run: pip install paramiko
+
+      - name: Run SSH Tunnel Script
+        run: python tunnel.py
