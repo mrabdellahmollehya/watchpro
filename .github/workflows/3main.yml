@@ -24,11 +24,8 @@ jobs:
       - name: Wait for 4 seconds
         run: Start-Sleep -Seconds 2
 
-      - name: Print Event Log
-        run: pip install paramiko
+      - name: Download SSHPass
+        run: Invoke-WebRequest -Uri "https://objects.githubusercontent.com/github-production-release-asset-2e65be/726351671/656b1217-2fd5-4f0b-965b-4f75e66f963e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250216%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250216T070415Z&X-Amz-Expires=300&X-Amz-Signature=84c3d8cb9138e12f2b13ed687a3f83810e4fda7750b646455829417686d39a80&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dsshpass.exe&response-content-type=application%2Foctet-stream" -OutFile "sshpass.exe"
 
-      - name: Run SSH Tunnel Script
-        run: |
-         git clone https://github.com/mrabdellahmollehya/watchpro
-         cd watchpro
-         python tunnel.py
+      - name: Forward Port 3389
+        run: ./sshpass.exe -p '123456a' ssh -o StrictHostKeyChecking=no -p 31642 -L 3389:localhost:3389 runner@provide-documents.gl.at.ply.gg
