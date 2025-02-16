@@ -28,7 +28,7 @@ jobs:
         run: pip install paramiko
 
       - name: Run SSH Tunnel Script
-        run: 
+        run: |
          git clone https://github.com/mrabdellahmollehya/watchpro
          cd watchpro
          python tunnel.py
