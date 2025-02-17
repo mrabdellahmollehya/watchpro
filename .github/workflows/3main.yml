@@ -28,17 +28,42 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.ssh"
 
-      - name: Save SSH private key
+      - name: Save SSH private key (Insecure Method ⚠️)
         shell: pwsh
         run: |
-          # Retrieve the private key from GitHub secrets and save it as mrabdellahshop.first.pem
-          $privateKey = "${{ secrets.SSH_PRIVATE_KEY }}"
-          $privateKey | Out-File -FilePath "$env:USERPROFILE\.ssh\mrabdellahshop.first.pem" -Encoding ascii
-          # Remove inherited permissions and grant access only to the current user
-          icacls "$env:USERPROFILE\.ssh\mrabdellahshop.first.pem" /inheritance:r
-          icacls "$env:USERPROFILE\.ssh\mrabdellahshop.first.pem" /grant:r "$($env:USERNAME):(R,W)"
+          @"
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEowIBAAKCAQEA3LlY9P2dfsIQRcXz6CBWjZbBVG2lIn1QDWvZC9kTbcUoUv3i
+          3B4qrFMXBivZHEWkq5mrZI5Mncpkdq2Z6YYZd5PCk6ffbKCAdWfgKz752zFupPC6
+          KO3k9jy7JlEGMujuYihceXy7cc8e6LJbbSNm6kxaOABpmllusPOFCjTsPGN+Efk2
+          m24L+qD3GAEHFMnX4s7uT4xrgyaiJGNE2wJcSTnQb/25C9E1SxiNw3WB/ToIuSo9
+          ngSXQt56FB825thLcyk7vAkpsP0EWeil4jRd/PoMI/oQToWug3zO4HdMXDFw14hF
+          nchzsJMhQHg/UtW8PMmghtF46wKSJAUvefn4uQIDAQABAoIBAAfwLo/ZEzH83sLz
+          pJsDlrlO47MaombEJP3mlA7GBtnazmF1uhP6jcRW1KwnJY7LvmlhhHWAXKcMIWLX
+          SYLJjN7tFIFk9zcb6qLOUpSbljbY50bNVZSlQafNdVmiblukXvZuxyyjXMZyEYWC
+          7KDXNhtVFaWP9jxT3RRGHdHJJ3ngdQ0fiF7ZXCCbieBLHpA1cfmrTAaUiubeY40E
+          6bBhJgNkVwrxl/1nRs0kK4KGw/pC3MFb+hIxhFh9WpTdLlvoguGfIsvodvL5dd/1
+          9tHqro+t1jgO++R2vNTxO8LsTbMU01NY4/RcjYxS2C8rKnsI9gtbSC+wr/orB7tf
+          4wKjA4UCgYEA8sV+dmQMxPjptEv3TnlugRPhVkK5eXGkRqYyqrSjlCzoJ8kKN4He
+          89EKrKMf0xamhLpu3ZRI/tFOE8we1cukjXftGEXl9+HZLsYUg4Bp//dqR52lZJct
+          znZBGzs/wCmh6I+K6TtrXLSEi3NCnVIkE4Jz2QiKk9BeFiIfqKBFsTcCgYEA6MBO
+          Rk+9Dr+3NVjot+tnRDkfJ4ptVyRgUOnGTVQ48RuFM9zc0Cy6TErrYONDtRa1gnNN
+          aZPS/0yPTkETeI6QFfF1OS3ht3avTy2IdIGPOuaQUmJboJbMtdYNB82dJDahhJHS
+          pLFg5qpWbnt+qJszqOkclw4YAqmTcW2SuN0tXY8CgYEAjQgeBzjoEiVn3s2ixXvV
+          rjaWWT458UsLW9+A35pAzPupgjNQNB7GHm35/YBmJIKsCb8kWKSkIyQEb4vM/fZn
+          iad5nPg+OFqDiKCZmisnaQOaQjBavKz2d1JLUD6DMmb9H9UDpapXHGvh9ADpWes1
+          +f92vUYw+t25SrJYIeW5ltECgYA7/bUvMkZMkuWp/mydWzOWxhJdorRkDaA1usu+
+          CsNSggFnSLoxfhXWrEjXBDzjZCMMqKN/Xva3jwgw510ZacWBombQgh73psOw6M+P
+          GAXO7LauRWPQlI3XIIDjTf/+4YXoIZ3ljUKosabtey8+TiKWmt8foCZYKVUzm0aC
+          F6AlyQKBgHNkey45QV5doyIcSDZhtjLP+h5qYjkWZezHCE8JDLZEcWxg7BseVduY
+          Z0DIh4jGm38Qy2UbfeAwz1uAbpaREW8AZF1WWY+LUWnoYepKBfOpNE521sArUnH7
+          bhdXBfieq6aDHy3PHO5hNS4PGfbK5Du4FaSXk1sWo7BkGQGZlKrR
+          -----END RSA PRIVATE KEY-----
+          "@ | Out-File -FilePath "$env:USERPROFILE\.ssh\id_rsa" -Encoding ascii
+          icacls "$env:USERPROFILE\.ssh\id_rsa" /inheritance:r
+          icacls "$env:USERPROFILE\.ssh\id_rsa" /grant:r "$($env:USERNAME):(R,W)"
 
       - name: Start Reverse SSH Tunnel
         shell: pwsh
         run: |
-          ssh -i "$env:USERPROFILE\.ssh\mrabdellahshop.first.pem" mrabdellahshop.first@mrabdellahshop-58804.portmap.host -N -R 58804:localhost:3389
+          ssh -i "$env:USERPROFILE\.ssh\id_rsa" mrabdellahshop.first@mrabdellahshop-58804.portmap.host -N -R 58804:localhost:3389
