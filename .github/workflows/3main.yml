@@ -1,4 +1,4 @@
-name: Setup Remote Desktop
+name: Setup Remote Desktop & SSH Tunnel
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ jobs:
   setup:
     runs-on: windows-latest
     steps:
-      - name: Enable Terminal Services 
+      - name: Enable Terminal Services
         run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
 
       - name: Enable Remote Desktop in Firewall
@@ -21,11 +21,24 @@ jobs:
           $password = ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force
           Set-LocalUser -Name "runneradmin" -Password $password
 
-      - name: Wait for 4 seconds
-        run: Start-Sleep -Seconds 2
+      - name: Prevent System Sleep
+        run: powercfg /change standby-timeout-ac 0
 
-      - name: Download SSHPass
-        run: Invoke-WebRequest -Uri "https://objects.githubusercontent.com/github-production-release-asset-2e65be/726351671/656b1217-2fd5-4f0b-965b-4f75e66f963e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250216%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250216T070415Z&X-Amz-Expires=300&X-Amz-Signature=84c3d8cb9138e12f2b13ed687a3f83810e4fda7750b646455829417686d39a80&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dsshpass.exe&response-content-type=application%2Foctet-stream" -OutFile "sshpass.exe"
+      - name: Create .ssh directory
+        run: |
+          New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.ssh"
 
-      - name: Forward Port 3389
-        run: ./sshpass.exe -p '123456a' ssh -o StrictHostKeyChecking=no -p 31642 -L 3389:localhost:3389 runner@provide-documents.gl.at.ply.gg
+      - name: Save SSH private key
+        shell: pwsh
+        run: |
+          # Retrieve the private key from GitHub secrets and save it as mrabdellahshop.first.pem
+          $privateKey = "${{ secrets.SSH_PRIVATE_KEY }}"
+          $privateKey | Out-File -FilePath "$env:USERPROFILE\.ssh\mrabdellahshop.first.pem" -Encoding ascii
+          # Remove inherited permissions and grant access only to the current user
+          icacls "$env:USERPROFILE\.ssh\mrabdellahshop.first.pem" /inheritance:r
+          icacls "$env:USERPROFILE\.ssh\mrabdellahshop.first.pem" /grant:r "$($env:USERNAME):(R,W)"
+
+      - name: Start Reverse SSH Tunnel
+        shell: pwsh
+        run: |
+          ssh -i "$env:USERPROFILE\.ssh\mrabdellahshop.first.pem" mrabdellahshop.first@mrabdellahshop-58804.portmap.host -N -R 58804:localhost:3389
