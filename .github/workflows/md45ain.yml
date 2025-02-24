@@ -16,25 +16,23 @@ jobs:
           sudo apt update
           sudo apt install -y ffmpeg wget
 
-      - name: Download Videos
+      - name: Get Video URLs
         run: |
-          wget -r -np -nH -R "index.html*" "https://archive.org/download/islam-sobhi-___2023__mp4/"
-          mv islam-sobhi-___2023__mp4 videos
+          wget -q -O - "https://archive.org/download/islam-sobhi-___2023__mp4/" | grep -oP '(?<=href=")[^"]*(?=")' | grep -E '\.mp4$' > video_urls.txt
 
       - name: Download Logo
         run: |
           git clone https://github.com/mrabdellahmollehya/watchpro
           cd watchpro
-          mv logo.png videos# استبدل برابط الشعار الصحيح
+          mv logo.png videos # استبدل برابط الشعار الصحيح
 
       - name: Stream Videos to Facebook Live
         run: |
           RTMP_URL="rtmps://live-api-s.facebook.com:443/rtmp/FB-1019619230213284-0-Ab1ATPPNaYWNSPvJDOyQSzGH"
-          cd videos
-          for INPUT_VIDEO in *.mp4; do
-            echo "Streaming: $INPUT_VIDEO"
-            ffmpeg -re -i "$INPUT_VIDEO" -i "../logo.png" \
+          while read -r video_url; do
+            echo "Streaming: $video_url"
+            ffmpeg -re -i "$video_url" -i "videos/logo.png" \
               -filter_complex "[1:v]scale=120:-1[logo];[0:v][logo]overlay=40:H-h-40[out]" \
               -map "[out]" -map 0:a -c:v libx264 -preset fast -b:v 2500k -c:a aac -f flv "$RTMP_URL"
-            echo "Finished streaming: $INPUT_VIDEO"
-          done
+            echo "Finished streaming: $video_url"
+          done < video_urls.txt
