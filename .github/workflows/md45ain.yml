@@ -24,6 +24,7 @@ jobs:
       - name: Download Logo
         run: |
           git clone https://github.com/mrabdellahmollehya/watchpro
+          cd watchpro
           mv logo.png videos# استبدل برابط الشعار الصحيح
 
       - name: Stream Videos to Facebook Live
